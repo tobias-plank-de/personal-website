@@ -1,0 +1,18 @@
+# Ignore all files in content directory but keep folder structure
+content/**/*
+!content/**/
+!content/**/.gitkeep
+
+# Ignore all files in media directory but keep folder structure
+media/*
+!media/.gitkeep
+
+# Keep subdirectories in content
+!content/imprint/
+!content/news/
+!content/personal/
+!content/politics/
+!content/work/
+
+# IDE
+.idea/

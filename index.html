@@ -1,45 +1,208 @@
 <!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tobias - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-mode="work" data-theme="auto">
+    <!-- Header mit drei Inseln -->
+    <header class="header">
+        <div class="island island-logo">
+            <h1 id="logo" class="logo">
+                <span class="logo-full">Tobias Plank</span>
+                <span class="logo-short">TP</span>
+            </h1>
+        </div>
 
-<html lang="en">
-    <head>
-        <title>Tobias Website</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="styles.css"> 
-    </head>
-
-    <body>
-        <div class="container">
-            <div class="header">
-                <h1>Hi, I'm Tobias!</h1>
-                <p>I'm an Associate System Engineer and local politician.</p>
-            </div>
-
-            <div class="menu">
-                <h2>Menu</h2>
-                <p>Home</p>
-                <p>Resume</p>
-                <p>Work</p>
-                <p>Politics</p>
-                <p>Contact</p>
-                <p>About</p>
-                <p>Blog</p>
-            </div>
-            
-            <div class="content">
-                <h2>Work</h2>
-                <p>
-                    I started my apprenticeship as an IT specialist for system integration at MediaMarktSaturn in 2022
-                    and completed it in 2025. Now I am working as an Associate System Engineer in the Network Platform.
-                </p>
-
-                <h2>Politics</h2>
-                <p>I joined the SPD in 2024 and have been involved in local politics since then.</p>
-            </div>
-
-            <div class="footer">
-                <p>Imprint</p>
+        <div class="island island-search">
+            <div class="search-container">
+                <div class="mode-selector">
+                    <div class="custom-select" id="customModeSelect">
+                        <div class="select-selected">Arbeit</div>
+                        <div class="select-items hidden">
+                            <div data-value="work" data-de="Arbeit" data-en="Work">Arbeit</div>
+                            <div data-value="politics" data-de="Politik" data-en="Politics">Politik</div>
+                            <div data-value="personal" data-de="Persönlich" data-en="Personal">Persönlich</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="searchBar" placeholder="Suchen...">
+                </div>
             </div>
         </div>
-    </body>
+
+        <div class="island island-settings">
+            <button id="settingsBtn" class="settings-btn" aria-label="Einstellungen">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"></path>
+                </svg>
+            </button>
+            <div id="settingsMenu" class="settings-menu hidden">
+                <div class="settings-item">
+                    <label>Sprache:</label>
+                    <div class="custom-select custom-select-lang" id="customLangSelect">
+                        <div class="select-selected">Deutsch</div>
+                        <div class="select-items hidden">
+                            <div data-value="de">Deutsch</div>
+                            <div data-value="en">English</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <label>Theme:</label>
+                    <div class="theme-slider">
+                        <input type="range" id="themeSlider" min="0" max="2" value="1" step="1">
+                        <div class="theme-labels">
+                            <span>Dark</span>
+                            <span>Auto</span>
+                            <span>Light</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content mit zwei Inseln -->
+    <main class="main-content" id="mainContent">
+        <div class="island island-intro">
+            <div id="introContent">
+                <!-- Work Mode Content -->
+                <div class="mode-content work-content active">
+                    <div class="profile-section">
+                        <div class="profile-image-container">
+                            <img id="profileImage" src="https://via.placeholder.com/200/4A90E2/FFFFFF?text=Work" alt="Profilbild Arbeit" class="profile-image">
+                        </div>
+                        <div class="profile-text" id="workContent">
+                            <!-- Content loaded from markdown -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Politics Mode Content -->
+                <div class="mode-content politics-content">
+                    <div class="profile-section">
+                        <div class="profile-image-container">
+                            <img id="profileImagePolitics" src="https://via.placeholder.com/200/E74C3C/FFFFFF?text=Politics" alt="Profilbild Politik" class="profile-image">
+                        </div>
+                        <div class="profile-text" id="politicsContent">
+                            <!-- Content loaded from markdown -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Mode Content -->
+                <div class="mode-content personal-content">
+                    <div class="profile-section">
+                        <div class="profile-image-container">
+                            <img id="profileImagePersonal" src="https://via.placeholder.com/200/2ECC71/FFFFFF?text=Personal" alt="Profilbild Persönlich" class="profile-image">
+                        </div>
+                        <div class="profile-text" id="personalContent">
+                            <!-- Content loaded from markdown -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="island island-feed">
+            <h3 data-de="Aktuelles" data-en="News">Aktuelles</h3>
+            <div id="newsFeed">
+                <!-- Work Mode Feed -->
+                <div class="feed-content work-feed active">
+                    <div class="feed-item">
+                        <span class="feed-date">02.02.2026</span>
+                        <p data-de="Neues Projekt: Network Automation gestartet" data-en="New project: Network Automation started">Neues Projekt: Network Automation gestartet</p>
+                    </div>
+                    <div class="feed-item">
+                        <span class="feed-date">15.01.2026</span>
+                        <p data-de="Zertifizierung: Linux Professional Institute" data-en="Certification: Linux Professional Institute">Zertifizierung: Linux Professional Institute</p>
+                    </div>
+                    <div class="feed-item">
+                        <span class="feed-date">01.01.2026</span>
+                        <p data-de="Ausbildung erfolgreich abgeschlossen" data-en="Apprenticeship completed successfully">Ausbildung erfolgreich abgeschlossen</p>
+                    </div>
+                </div>
+
+                <!-- Politics Mode Feed -->
+                <div class="feed-content politics-feed">
+                    <div class="feed-item">
+                        <span class="feed-date">30.01.2026</span>
+                        <p data-de="Gemeinderatssitzung: Digitalisierungsstrategie" data-en="Council meeting: Digitalization strategy">Gemeinderatssitzung: Digitalisierungsstrategie</p>
+                    </div>
+                    <div class="feed-item">
+                        <span class="feed-date">20.01.2026</span>
+                        <p data-de="Gewerkschaftstreffen: Tarifverhandlungen" data-en="Union meeting: Collective bargaining">Gewerkschaftstreffen: Tarifverhandlungen</p>
+                    </div>
+                    <div class="feed-item">
+                        <span class="feed-date">10.01.2026</span>
+                        <p data-de="Workshop: Soziale Gerechtigkeit im digitalen Zeitalter" data-en="Workshop: Social justice in the digital age">Workshop: Soziale Gerechtigkeit im digitalen Zeitalter</p>
+                    </div>
+                </div>
+
+                <!-- Personal Mode Feed -->
+                <div class="feed-content personal-feed">
+                    <div class="feed-item">
+                        <span class="feed-date">03.02.2026</span>
+                        <p data-de="Neuer Blogeintrag veröffentlicht" data-en="New blog post published">Neuer Blogeintrag veröffentlicht</p>
+                    </div>
+                    <div class="feed-item">
+                        <span class="feed-date">25.01.2026</span>
+                        <p data-de="Fotografie-Workshop besucht" data-en="Photography workshop attended">Fotografie-Workshop besucht</p>
+                    </div>
+                    <div class="feed-item">
+                        <span class="feed-date">18.01.2026</span>
+                        <p data-de="Wanderung: Zugspitze" data-en="Hiking: Zugspitze">Wanderung: Zugspitze</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impressum Insel (versteckt) -->
+        <div class="island island-imprint hidden" id="imprintContent">
+            <h2 data-de="Impressum" data-en="Imprint">Impressum</h2>
+            <div class="imprint-content">
+                <h3 data-de="Angaben gemäß § 5 TMG" data-en="Information according to § 5 TMG">Angaben gemäß § 5 TMG</h3>
+                <p>Tobias [Nachname]<br>
+                [Straße Hausnummer]<br>
+                [PLZ Ort]</p>
+
+                <h3 data-de="Kontakt" data-en="Contact">Kontakt</h3>
+                <p data-de="E-Mail: kontakt@tobias-portfolio.de" data-en="Email: contact@tobias-portfolio.com">
+                    E-Mail: kontakt@tobias-portfolio.de
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="#" id="imprintLink" data-de="Impressum" data-en="Imprint">Impressum</a>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal hidden">
+        <button id="closeModal" class="close-modal-btn" aria-label="Schließen">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <img id="modalImage" src="" alt="Vergrößertes Profilbild" class="modal-image">
+    </div>
+
+    <script src="markdown-parser.js"></script>
+    <script src="script.js"></script>
+</body>
 </html>

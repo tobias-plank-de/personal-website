@@ -1,44 +1,1094 @@
-html {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0)
+/* CSS Variables für Themes */
+:root {
+    --work-color-primary: #4A90E2;
+    --work-color-secondary: #357ABD;
+    --politics-color-primary: #E74C3C;
+    --politics-color-secondary: #C0392B;
+    --personal-color-primary: #2ECC71;
+    --personal-color-secondary: #27AE60;
+
+    --island-bg: rgba(42, 42, 42, 0.95);
+    --island-text: #FFFFFF;
+    --bg-color: #1F1F1F;
+    --text-color: #FFFFFF;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --island-border: rgba(0, 0, 0, 0.3);
+    --dropdown-bg: rgba(42, 42, 42, 0.95);
+    --dropdown-text: #FFFFFF;
+
+    --transition-speed: 0.3s;
 }
 
-.container {
-  display: grid;
-  grid-template-areas:
-    "menu header"
-    "menu content"
-    "footer footer";
-  grid-template-columns: 1fr 12fr;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
-  gap: 0px;
-  background-color: white;
+/* Light Mode */
+body[data-theme="light"] {
+    --island-bg: rgba(248, 248, 248, 0.95);
+    --island-text: #1A1A1A;
+    --bg-color: #D5D5D5;
+    --text-color: #1A1A1A;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    --island-border: rgba(0, 0, 0, 0.2);
+    --dropdown-bg: rgba(248, 248, 248, 0.95);
+    --dropdown-text: #1A1A1A;
 }
 
-.container div {
-  padding: 10px;
+/* Dark Mode */
+body[data-theme="dark"] {
+    --island-bg: rgba(42, 42, 42, 0.95);
+    --island-text: #FFFFFF;
+    --bg-color: #1F1F1F;
+    --text-color: #FFFFFF;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --island-border: rgba(0, 0, 0, 0.3);
+    --dropdown-bg: rgba(42, 42, 42, 0.95);
+    --dropdown-text: #FFFFFF;
 }
 
-.container div.header {
-  grid-area: header;
-  text-align: center;
+/* Auto Mode - System preference */
+@media (prefers-color-scheme: light) {
+    body[data-theme="auto"] {
+        --island-bg: rgba(248, 248, 248, 0.95);
+        --island-text: #1A1A1A;
+        --bg-color: #D5D5D5;
+        --text-color: #1A1A1A;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        --island-border: rgba(0, 0, 0, 0.2);
+        --dropdown-bg: rgba(248, 248, 248, 0.95);
+        --dropdown-text: #1A1A1A;
+    }
 }
 
-.container div.menu {
-  grid-area: menu;
-  background-color: rgb(202, 147, 93);
-  color: rgb(255, 255, 255);
+@media (prefers-color-scheme: dark) {
+    body[data-theme="auto"] {
+        --island-bg: rgba(42, 42, 42, 0.95);
+        --island-text: #FFFFFF;
+        --bg-color: #1F1F1F;
+        --text-color: #FFFFFF;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --island-border: rgba(0, 0, 0, 0.3);
+        --dropdown-bg: rgba(42, 42, 42, 0.95);
+        --dropdown-text: #FFFFFF;
+    }
 }
 
-.container div.content {
-  grid-area: content;
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.container div.footer {
-  grid-area: footer;
-  background-color: rgb(131, 96, 61);
-  color: rgb(255, 255, 255);
-  text-align: center;
+html, body {
+    height: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-color);
+    color: var(--text-color);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Radial Gradient Background für Modi mit Pulsieren */
+body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150vw;
+    height: 150vh;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    animation: pulse 8s ease-in-out infinite;
+}
+
+body[data-mode="work"]::before {
+    background: radial-gradient(circle, rgba(74, 144, 226, 0.4) 0%, rgba(74, 144, 226, 0.2) 25%, rgba(74, 144, 226, 0.1) 50%, transparent 70%);
+}
+
+body[data-mode="politics"]::before {
+    background: radial-gradient(circle, rgba(231, 76, 60, 0.4) 0%, rgba(231, 76, 60, 0.2) 25%, rgba(231, 76, 60, 0.1) 50%, transparent 70%);
+}
+
+body[data-mode="personal"]::before {
+    background: radial-gradient(circle, rgba(46, 204, 113, 0.4) 0%, rgba(46, 204, 113, 0.2) 25%, rgba(46, 204, 113, 0.1) 50%, transparent 70%);
+}
+
+/* Pulsieren Animation */
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+        opacity: 0.85;
+    }
+}
+
+/* Island System */
+.island {
+    background: var(--island-bg);
+    color: var(--island-text);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--island-border);
+    transition: all var(--transition-speed) ease;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.island:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+body[data-theme="light"] .island:hover {
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+/* Header */
+.header {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Logo Island */
+.island-logo {
+    flex: 0 0 auto;
+    padding: 15px 30px;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+.island-logo:hover {
+    transform: translateY(-2px) scale(1.02);
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--island-text);
+    transition: all var(--transition-speed) ease;
+}
+
+/* Logo short ist standardmäßig versteckt */
+.logo .logo-short {
+    display: none;
+}
+
+.logo .logo-full {
+    display: inline;
+}
+
+body[data-mode="work"] .logo {
+    background: linear-gradient(135deg, var(--work-color-primary), var(--work-color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+body[data-mode="politics"] .logo {
+    background: linear-gradient(135deg, var(--politics-color-primary), var(--politics-color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+body[data-mode="personal"] .logo {
+    background: linear-gradient(135deg, var(--personal-color-primary), var(--personal-color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Search Island */
+.island-search {
+    flex: 1 1 auto;
+    min-width: 300px;
+    padding: 15px 25px;
+    position: relative;
+    z-index: 9999;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Custom Select Dropdown */
+.custom-select {
+    position: relative;
+    width: auto;
+    min-width: 120px;
+}
+
+.select-selected {
+    position: relative;
+    padding: 10px 35px 10px 15px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.15);
+    color: var(--island-text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    user-select: none;
+}
+
+/* Light mode select */
+body[data-theme="light"] .select-selected {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.select-selected::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--island-text);
+    transition: transform var(--transition-speed) ease;
+    pointer-events: none;
+}
+
+.select-selected.select-arrow-active::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.select-selected:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="light"] .select-selected:hover {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+body[data-mode="work"] .select-selected.select-arrow-active {
+    border-color: var(--work-color-primary);
+}
+
+body[data-mode="politics"] .select-selected.select-arrow-active {
+    border-color: var(--politics-color-primary);
+}
+
+body[data-mode="personal"] .select-selected.select-arrow-active {
+    border-color: var(--personal-color-primary);
+}
+
+.select-items {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background: var(--dropdown-bg);
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 99;
+    overflow: hidden;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    transition: border-color var(--transition-speed) ease;
+}
+
+.select-items:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+body[data-theme="light"] .select-items {
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+body[data-theme="light"] .select-items:hover {
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.select-items.hidden {
+    display: none;
+}
+
+.select-items div {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background var(--transition-speed) ease;
+    color: var(--island-text);
+    font-size: 0.95rem;
+}
+
+.select-items div:hover {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+body[data-theme="light"] .select-items div:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.select-items div.same-as-selected {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="light"] .select-items div.same-as-selected {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.search-input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--island-text);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+#searchBar {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.15);
+    color: var(--island-text);
+    font-size: 0.95rem;
+    transition: all var(--transition-speed) ease;
+    outline: none;
+}
+
+body[data-theme="light"] #searchBar {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+#searchBar:focus {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="light"] #searchBar:focus {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+body[data-mode="work"] #searchBar:focus {
+    border-color: var(--work-color-primary);
+}
+
+body[data-mode="politics"] #searchBar:focus {
+    border-color: var(--politics-color-primary);
+}
+
+#searchBar::placeholder {
+    color: var(--island-text);
+    opacity: 0.5;
+}
+
+/* Settings Island */
+.island-settings {
+    flex: 0 0 auto;
+    padding: 15px;
+    position: relative;
+    z-index: 10000;
+}
+
+.settings-btn {
+    background: transparent;
+    border: none;
+    color: var(--island-text);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transform: rotate(90deg);
+}
+
+.settings-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background: var(--island-bg);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 250px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--island-border);
+    z-index: 1000;
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    transition: all var(--transition-speed) ease;
+}
+
+.settings-menu:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+body[data-theme="light"] .settings-menu:hover {
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.settings-menu.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+}
+
+.settings-item {
+    margin-bottom: 20px;
+}
+
+.settings-item:last-child {
+    margin-bottom: 0;
+}
+
+.settings-item label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.settings-item select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: var(--dropdown-bg);
+    color: var(--dropdown-text);
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+    transition: all var(--transition-speed) ease;
+}
+
+.settings-item select option {
+    background: var(--dropdown-bg);
+    color: var(--dropdown-text);
+}
+
+.settings-item select:hover {
+    opacity: 0.9;
+}
+
+/* Theme Slider */
+.theme-slider {
+    width: 100%;
+}
+
+#themeSlider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.1);
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+#themeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--work-color-primary);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+#themeSlider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--work-color-primary);
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition-speed) ease;
+}
+
+body[data-mode="politics"] #themeSlider::-webkit-slider-thumb {
+    background: var(--politics-color-primary);
+}
+
+body[data-mode="politics"] #themeSlider::-moz-range-thumb {
+    background: var(--politics-color-primary);
+}
+
+body[data-mode="personal"] #themeSlider::-webkit-slider-thumb {
+    background: var(--personal-color-primary);
+}
+
+body[data-mode="personal"] #themeSlider::-moz-range-thumb {
+    background: var(--personal-color-primary);
+}
+
+.theme-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Intro Island */
+.island-intro {
+    grid-column: 1;
+}
+
+.island-intro h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+body[data-mode="work"] .island-intro h2 {
+    color: var(--work-color-primary);
+    filter: brightness(0.95);
+}
+
+body[data-mode="politics"] .island-intro h2 {
+    color: var(--politics-color-primary);
+    filter: brightness(0.95);
+}
+
+body[data-mode="personal"] .island-intro h2 {
+    color: var(--personal-color-primary);
+    filter: brightness(0.95);
+}
+
+.island-intro h3 {
+    margin: 20px 0 12px 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+body[data-mode="work"] .island-intro h3 {
+    color: var(--work-color-primary);
+}
+
+body[data-mode="politics"] .island-intro h3 {
+    color: var(--politics-color-primary);
+}
+
+body[data-mode="personal"] .island-intro h3 {
+    color: var(--personal-color-primary);
+}
+
+.island-intro p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+.island-intro ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.island-intro ul li {
+    padding: 8px 0 8px 25px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.island-intro ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+body[data-mode="work"] .island-intro ul li::before {
+    color: var(--work-color-primary);
+}
+
+body[data-mode="politics"] .island-intro ul li::before {
+    color: var(--politics-color-primary);
+}
+
+/* Mode Content Switching */
+.mode-content {
+    display: none;
+    animation: fadeIn var(--transition-speed) ease;
+}
+
+.mode-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Feed Island */
+.island-feed {
+    grid-column: 2;
+}
+
+.island-feed h3 {
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+body[data-mode="work"] .island-feed h3 {
+    color: var(--work-color-primary);
+    filter: brightness(0.95);
+}
+
+body[data-mode="politics"] .island-feed h3 {
+    color: var(--politics-color-primary);
+    filter: brightness(0.95);
+}
+
+body[data-mode="personal"] .island-feed h3 {
+    color: var(--personal-color-primary);
+    filter: brightness(0.95);
+}
+
+.feed-content {
+    display: none;
+}
+
+.feed-content.active {
+    display: block;
+}
+
+.feed-item {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.feed-item:last-child {
+    border-bottom: none;
+}
+
+.feed-date {
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-bottom: 6px;
+}
+
+.feed-item p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Imprint Island */
+.island-imprint {
+    grid-column: 1 / -1;
+    animation: fadeIn var(--transition-speed) ease;
+}
+
+.island-imprint.hidden {
+    display: none;
+}
+
+.island-imprint h2 {
+    margin-bottom: 25px;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+body[data-mode="work"] .island-imprint h2 {
+    color: var(--work-color-primary);
+    filter: brightness(0.95);
+}
+
+body[data-mode="politics"] .island-imprint h2 {
+    color: var(--politics-color-primary);
+    filter: brightness(0.95);
+}
+
+.island-imprint h3 {
+    margin: 20px 0 12px 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.island-imprint p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 0.9rem;
+}
+
+.footer a {
+    color: var(--text-color);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: all var(--transition-speed) ease;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.footer a:hover {
+    opacity: 1;
+}
+
+body[data-mode="work"] .footer a:hover {
+    color: var(--work-color-primary);
+}
+
+body[data-mode="politics"] .footer a:hover {
+    color: var(--politics-color-primary);
+}
+
+body[data-mode="personal"] .footer a:hover {
+    color: var(--personal-color-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .island-feed {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .island-logo, .island-search, .island-settings {
+        flex: 1 1 100%;
+    }
+
+    .search-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .mode-selector select,
+    .search-input-wrapper {
+        width: 100%;
+    }
+
+    .island-intro h2 {
+        font-size: 1.5rem;
+    }
+
+    .island-intro p {
+        font-size: 1rem;
+    }
+
+    .profile-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-image {
+        width: 160px;
+        height: 160px;
+    }
+
+    /* Logo auf mobil zu TP verkürzen */
+    .logo .logo-full {
+        display: none;
+    }
+
+    .logo .logo-short {
+        display: inline;
+    }
+
+    /* Main content z-index niedriger als Menüs */
+    .main-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Settings menu über alles andere schweben auf mobile */
+    .settings-menu {
+        position: fixed !important;
+        top: auto !important;
+        right: 20px !important;
+        left: 20px !important;
+        bottom: 20px !important;
+        margin-top: 0 !important;
+        z-index: 9999 !important;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Custom dropdown über alles andere schweben auf mobile */
+    .select-items {
+        position: fixed !important;
+        top: auto !important;
+        left: 20px !important;
+        right: 20px !important;
+        bottom: 20px !important;
+        z-index: 9998 !important;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    flex-direction: row-reverse;
+}
+
+.profile-image-container {
+    flex-shrink: 0;
+}
+
+.profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 16px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-text {
+    flex: 1;
+}
+
+.profile-text h1,
+.profile-text h2,
+.profile-text h3 {
+    margin-bottom: 15px;
+}
+
+.profile-text h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+body[data-mode="work"] .profile-text h2,
+body[data-mode="work"] .profile-text h1 {
+    color: var(--work-color-primary);
+    filter: brightness(0.95);
+}
+
+body[data-mode="politics"] .profile-text h2,
+body[data-mode="politics"] .profile-text h1 {
+    color: var(--politics-color-primary);
+    filter: brightness(0.95);
+}
+
+body[data-mode="personal"] .profile-text h2,
+body[data-mode="personal"] .profile-text h1 {
+    color: var(--personal-color-primary);
+    filter: brightness(0.95);
+}
+
+.profile-text h3 {
+    margin: 20px 0 12px 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.profile-text p {
+    line-height: 1.8;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+.profile-text ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.profile-text ul li {
+    padding: 8px 0 8px 25px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.profile-text ul li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+body[data-mode="work"] .profile-text ul li::before {
+    color: var(--work-color-primary);
+}
+
+body[data-mode="politics"] .profile-text ul li::before {
+    color: var(--politics-color-primary);
+}
+
+body[data-mode="personal"] .profile-text ul li::before {
+    color: var(--personal-color-primary);
+}
+
+/* Image Modal */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    backdrop-filter: blur(10px);
+    animation: fadeIn var(--transition-speed) ease;
+}
+
+.image-modal.hidden {
+    display: none;
+}
+
+.modal-image {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: zoomIn 0.4s ease;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    backdrop-filter: blur(10px);
+    z-index: 100000;
+}
+
+.close-modal-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: rotate(90deg);
+}
+
+.close-modal-btn svg {
+    color: white;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Text Selection Colors */
+::selection {
+    background: var(--work-color-primary);
+    color: white;
+}
+
+::-moz-selection {
+    background: var(--work-color-primary);
+    color: white;
+}
+
+body[data-mode="politics"] ::selection {
+    background: var(--politics-color-primary);
+    color: white;
+}
+
+body[data-mode="politics"] ::-moz-selection {
+    background: var(--politics-color-primary);
+    color: white;
+}
+
+body[data-mode="personal"] ::selection {
+    background: var(--personal-color-primary);
+    color: white;
+}
+
+body[data-mode="personal"] ::-moz-selection {
+    background: var(--personal-color-primary);
+    color: white;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
 }
